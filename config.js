@@ -22,20 +22,20 @@ global.mods =
 global.prems = 
 
 
-global.packname = 'AleiznBot Bot MD'
-global.botname = 'AleiznBot Bot'
-global.wm = 'AleiznBot Bot - MD'
+global.packname = 'AleiznBot MD'
+global.botname = 'AleiznBot'
+global.wm = 'AleiznBot - MD'
 global.author = 'AleiznBot MD'
-global.dev = 'AleiznBot Bot'
+global.dev = 'AleiznBot'
 global.errorm = 'Error: ${error.message}'
 global.namebot = 'AleiznBot'
 global.nameai = 'AleiznBot Ai'
-global.textbot = 'AleiznBot BOT MD'
-global.textmain = 'AleiznBotBOT'
-global.textmain2 = 'AleiznBot Bot MD'
+global.textbot = 'AleiznBot MD'
+global.textmain = 'AleiznBot'
+global.textmain2 = 'AleiznBot MD'
 global.vs = '2.1.0'
 global.emotg = '🌷'
-global.msgtagall = '𖥻 ׁ ׅ  𝘉𝘰𝘵 𝘣𝘺 @𝘭𝘦𝘦𝘵𝘵𝘴𝘪𝘵𝘢 ! ﹒🌷*\n. 🌷 ּ֯ ┆꒰ 𝘉𝘰𝘵 𝘚𝘦𝘳𝘷𝘪𝘤𝘦: .ᐟ ⨾\n↳ wa.me/+51992621601‬'
+global.msgtagall = '💜⋆ 𝗘𝗧𝗜𝗤𝗨𝗘𝗧𝗔 𝗚𝗘𝗡𝗘𝗥𝗔𝗟 ⋆💜\n🛍️𝗔𝗱𝗾𝘂𝗶𝗲𝗿𝗲 𝗲𝗹 𝗯𝗼𝘁 𝗰𝗼𝗻 ⨾\n↳ wa.me/51992621601‬'
 global.moneda = 'AleiznBotCoins'
 
 global.sessions = 'AleiznBotSession'
