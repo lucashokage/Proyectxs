@@ -83,7 +83,7 @@ for (let key in emojis) {
     let defaultMenu = {
 
 
-    before: `｡ﾟ○☆🌷𝐋𝐞𝐞𝐭𝐭𝐬𝐢𝐭𝐚 𝐁𝐨𝐭🌷☆○ﾟ｡
+    before: `Kaisen Bot
 𓂃 ࣪˖ ⋆.˚ ʚїɞ ⋆  ${taguser} ⋆. 𐙚 ˚
 𝚃𝚎𝚗 𝚞𝚗/𝚞𝚗𝚊 ${saludo} ౨ৎ✨
 

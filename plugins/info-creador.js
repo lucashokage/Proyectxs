@@ -1,35 +1,20 @@
-import fetch from 'node-fetch';
-
-let handler = async (m, { conn, usedPrefix, text, args, command }) => {
-   await m.react('🌷');
-
-    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
-    let name = await conn.getName(who);
-    let username = conn.getName(m.sender);
-
-    // VCARD
-    let list = [{
-        displayName: "KaisenBot🌷",
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:KaisenBot🌷
-\nitem1.TEL;waid=+51992621601:+51992621601\nitem1.X-ABLabel:Número\nitem2.EMAIL;type=INTERNET: Aleizn.vx@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://www.instagram.com/Aleizn\nitem3.X-ABLabel:Internet\nitem4.ADR:;; Argentina 🇦🇷;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
-    }];
+let handler = async (m, { conn, usedPrefix, command }) => {
+    let vcard1 = `BEGIN:VCARD\nVERSION:3.0\nN:;Aleizn;;;\nFN:Aleizn\nitem1.TEL;waid=51992621601:+51 992 621 601\nitem1.X-ABLabel:Propietario / Owner\nEND:VCARD`
+    let vcard2 = `BEGIN:VCARD\nVERSION:3.0\nN:;Anto;;;\nFN:Anto\nitem1.TEL;waid=56927280073:+56 9272 80073\nitem1.X-ABLabel:Propietario / Owner\nEND:VCARD`
 
     await conn.sendMessage(m.chat, {
         contacts: {
-            displayName: `${list.length} Contacto`,
-            contacts: list
+            displayName: 'Propietarios / Owners',
+            contacts: [
+                { vcard: vcard1 },
+                { vcard: vcard2 }
+            ]
         }
-    }, {
-        quoted: m
-    });
+    }, { quoted: m })
+}
 
-    let txt = `👋 *Hola \`${username}\` este es*\n*el contacto de mi creador*`;
+handler.help = ['owner', 'creator', 'dueño']
+handler.tags = ['main']
+handler.command = /^(owner|creator|dueño)$/i
 
-    await conn.sendMessage(m.chat, { text: txt }, { quoted: m });
-};
-
-handler.help = ['owner'];
-handler.tags = ['info'];
-handler.command = /^(owner|creator|creador|dueño)$/i;
-
-export default handler;
+export default handler
