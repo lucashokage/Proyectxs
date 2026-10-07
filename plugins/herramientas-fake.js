@@ -1,26 +1,42 @@
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-let txt = `*${emojis} Ingresa el texto para crear el mensaje falso*\n> *Ejemplo:* ${usedPrefix + command} ¿Quién soy? *@user* Eres mi perrita 🫦`
-if (!text) return conn.reply(m.chat, txt, m)
-let cm = copy(m)
-let who
-if (text.includes('@0')) who = '0@s.whatsapp.net'
-else if (m.isGroup) who = cm.participant = m.mentionedJid[0]
-else who = m.chat
-if (!who) return m.reply(txt)
-cm.key.fromMe = false
-cm.message[m.mtype] = copy(m.msg)
-let sp = '@' + who.split`@`[0]
-let [fake, ...real] = text.split(sp)
-  conn.fakeReply(m.chat, real.join(sp).trimStart(), who, fake.trimEnd(), m.isGroup ? m.chat : false, {
-contextInfo: {
-mentionedJid: conn.parseMention(real.join(sp).trim())
-}})}
-handler.help = ['fake']
-handler.tags = ['tools']
-handler.command = /^(fake)$/
+import { generateBrat } from '@xayz/brat-generator'
+
+let handler = async (m, { conn, text }) => {
+    if (!text) {
+        return m.reply('*✏️ Escribe un texto para crear tu sticker.*\n\n*Ejemplo:*\n.brat Hola mundo 🌷')
+    }
+
+    try {
+        await m.react('🌷')
+
+        // Generar imagen estilo Brat
+        let image = await generateBrat({
+            text: text,
+            theme: 'white',
+            blur: 0
+        })
+
+        // Enviar como sticker
+        await conn.sendMessage(
+            m.chat,
+            {
+                sticker: image
+            },
+            {
+                quoted: m
+            }
+        )
+
+        await m.react('✅')
+
+    } catch (e) {
+        console.error(e)
+        await m.react('❌')
+        return m.reply('*❌ Ocurrió un error al crear el sticker Brat.*')
+    }
+}
+
+handler.help = ['brat <texto>']
+handler.tags = ['sticker']
+handler.command = ['brat']
 
 export default handler
-
-function copy(obj) {
-  return JSON.parse(JSON.stringify(obj))
-}

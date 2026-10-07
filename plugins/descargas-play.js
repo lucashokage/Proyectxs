@@ -1,87 +1,63 @@
-import yts from 'yt-search';
-import fetch from 'node-fetch';
-import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
+import yts from 'yt-search'
+import axios from 'axios'
 
-const handler = async (m, { conn, args, usedPrefix }) => {
-    if (!args[0]) return conn.reply(m.chat, `*${emojis} Proporciona una canción para buscar*\n> ejemplo: .play Destello - Kidd Voodoo`, m);
+let handler = async (m, { conn, usedPrefix, command, text }) => {
+  if (!text) {
+    return conn.reply(m.chat, `*✨ Por favor, ingresa el nombre de la canción o video que deseas buscar.*\n> *\`Ejemplo:\`* ${usedPrefix + command} Bad Bunny - Monaco`, m)
+  }
 
-    await m.react('🕓');
-    try {
-        let searchResults = await searchVideos(args.join(" "));
+  m.react('⏳')
 
-        if (!searchResults.length) throw new Error('No se encontraron resultados.');
-
-        let video = searchResults[0];
-        let thumbnail = await (await fetch(video.miniatura)).buffer();
-
-        let messageText = `*Youtube - Download*\n\n`;
-        messageText += `${video.titulo}\n\n`;
-        messageText += `*⌛ Duración:* ${video.duracion || 'No disponible'}\n`;
-        messageText += `*👤 Autor:* ${video.canal || 'Desconocido'}\n`;
-        messageText += `*📆 Publicado:* ${convertTimeToSpanish(video.publicado)}\n`;
-        messageText += `*🖇️ Url:* ${video.url}\n`;
-
-        await conn.sendMessage(m.chat, {
-            image: thumbnail,
-            caption: messageText,
-            footer: dev,
-            contextInfo: {
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true
-            },
-            buttons: [
-                {
-                    buttonId: `${usedPrefix}ytmp3 ${video.url}`,
-                    buttonText: { displayText: 'Audio' },
-                    type: 1,
-                },
-                {
-                    buttonId: `${usedPrefix}ytmp4 ${video.url}`,
-                    buttonText: { displayText: 'Vídeo' },
-                    type: 1,
-                }
-            ],
-            headerType: 1,
-            viewOnce: true
-        }, { quoted: m });
-
-        await m.react('✅');
-    } catch (e) {
-        console.error(e);
-        await m.react('✖️');
-        conn.reply(m.chat, '*`Error al buscar el video.`*', m);
+  try {
+    // 1. Buscar la canción en YouTube
+    const search = await yts(text)
+    if (!search || !search.videos.length) {
+      m.react('✖️')
+      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m)
     }
-};
 
-handler.help = ['play'];
-handler.tags = ['descargas'];
-handler.command = ['play'];
-export default handler;
+    const song = search.videos[0]
+    const { title, thumbnail, timestamp, url, author } = song
 
-async function searchVideos(query) {
-    try {
-        const res = await yts(query);
-        return res.videos.slice(0, 10).map(video => ({
-            titulo: video.title,
-            url: video.url,
-            miniatura: video.thumbnail,
-            canal: video.author.name,
-            publicado: video.timestamp || 'No disponible',
-            vistas: video.views || 'No disponible',
-            duracion: video.duration.timestamp || 'No disponible'
-        }));
-    } catch (error) {
-        console.error('Error en yt-search:', error.message);
-        return [];
+    let infoText = `🎵 *YOUTUBE - PLAY (MP3)* 🎵\n\n` +
+                   `📌 *Título:* ${title}\n` +
+                   `⏱️ *Duración:* ${timestamp}\n` +
+                   `👤 *Canal:* ${author.name}\n\n` +
+                   `_Descargando audio, por favor espera..._`
+
+    // Enviar la miniatura con los datos de la canción
+    await conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: infoText }, { quoted: m })
+
+    // 2. Endpoint adaptado a ytmp3 con tu apikey
+    let apiUrl = `https://dv-yer-api.online/ytmp3?apikey=dvyer431729171143&url=${encodeURIComponent(url)}`
+    
+    // 3. Petición a la API
+    let res = await axios.get(apiUrl)
+    
+    // Capturar el enlace de descarga del audio
+    let downloadUrl = res.data.result || res.data.url || res.data.download
+
+    if (!downloadUrl) {
+      throw new Error('La API no devolvió un enlace de descarga de audio válido.')
     }
+
+    // 4. Enviar el archivo como audio MP3 al chat de WhatsApp
+    await conn.sendMessage(m.chat, { 
+        audio: { url: downloadUrl }, 
+        mimetype: 'audio/mpeg',
+        ptt: false // Cambia a true si prefieres que se envíe como nota de voz
+    }, { quoted: m })
+
+    m.react('✅')
+  } catch (err) {
+    console.error(err)
+    m.react('✖️')
+    m.reply(`✖️ Ocurrió un error al procesar el audio: ${err.message}`)
+  }
 }
 
-function convertTimeToSpanish(timeText) {
-    return timeText
-        .replace(/year/, 'año').replace(/years/, 'años')
-        .replace(/month/, 'mes').replace(/months/, 'meses')
-        .replace(/day/, 'día').replace(/days/, 'días')
-        .replace(/hour/, 'hora').replace(/hours/, 'horas')
-        .replace(/minute/, 'minuto').replace(/minutes/, 'minutos');
-}
+handler.help = ['play <texto>']
+handler.command = ['play', 'cancion', 'audio']
+handler.tags = ['downloader']
+
+export default handler

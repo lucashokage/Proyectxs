@@ -8,39 +8,39 @@ import axios from 'axios'
 import moment from 'moment-timezone' 
 
 global.owner = [
-   ['+51992621601', 'AleiznBot 🐼', true],
-   ['+51992621601', 'AleiznBot', true],
-   ['+51992621601','AleiznBot', true],
-   ['+51992621601', 'AleiznBot', true],
+   ['+51992621601', 'KaisenBot 🐼', true],
+   ['+51992621601', 'KaisenBot', true],
+   ['+51992621601','KaisenBot', true],
+   ['+51992621601', 'KaisenBot', true],
 ]
 
 global.creator = [
-   ['+51992621601', 'AleiznBot 🐼', true]
+   ['+51992621601', 'KaisenBot 🐼', true]
 ]
 
 global.mods = 
 global.prems = 
 
 
-global.packname = 'AleiznBot MD'
-global.botname = 'AleiznBot'
-global.wm = 'AleiznBot - MD'
-global.author = 'AleiznBot MD'
-global.dev = 'AleiznBot'
+global.packname = 'KaisenBot MD'
+global.botname = 'KaisenBot'
+global.wm = 'KaisenBot - MD'
+global.author = 'KaisenBot MD'
+global.dev = 'KaisenBot'
 global.errorm = 'Error: ${error.message}'
-global.namebot = 'AleiznBot'
-global.nameai = 'AleiznBot Ai'
-global.textbot = 'AleiznBot MD'
-global.textmain = 'AleiznBot'
-global.textmain2 = 'AleiznBot MD'
+global.namebot = 'KaisenBot'
+global.nameai = 'KaisenBot Ai'
+global.textbot = 'KaisenBot MD'
+global.textmain = 'KaisenBot'
+global.textmain2 = 'KaisenBot MD'
 global.vs = '2.1.0'
 global.emotg = '🌷'
 global.msgtagall = '💜⋆ 𝗘𝗧𝗜𝗤𝗨𝗘𝗧𝗔 𝗚𝗘𝗡𝗘𝗥𝗔𝗟 ⋆💜\n🛍️𝗔𝗱𝗾𝘂𝗶𝗲𝗿𝗲 𝗲𝗹 𝗯𝗼𝘁 𝗰𝗼𝗻 ⨾\n↳ wa.me/51992621601‬'
-global.moneda = 'AleiznBotCoins'
+global.moneda = 'KaisenBotCoins'
 
-global.sessions = 'AleiznBotSession'
+global.sessions = 'KaisenBotSession'
 global.jadi = 'JadiBots'
-global.nameqr = 'AleiznBot'
+global.nameqr = 'KaisenBot'
 
 
 global.catalogo = fs.readFileSync('./media/catalogo.jpg')

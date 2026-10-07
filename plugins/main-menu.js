@@ -19,7 +19,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
     await m.react('🌷')
 
-    const img = 'https://files.catbox.moe/mxeqyx.jpg'
+    // 1. Cambiamos la variable 'img' por 'video'
+    const videoUrl = 'https://files.catbox.moe/cgteah.mp4'
 
 let tags = {};
 let emojis = {
